@@ -21,7 +21,7 @@
 <body>
 
 <!-- Background Music -->
-<audio id="bgMusic" autoplay loop volume="0.5">
+<audio id="bgMusic" loop>
 	<source src="Song.mp3" type="audio/mpeg">
 	Your browser does not support the audio element.
 </audio>
@@ -106,6 +106,27 @@ if (!document.createElement('canvas').getContext) {
 	adjustCodePosition();
 	$("#code").typewriter();
 }
+
+// Play background music
+var audio = document.getElementById('bgMusic');
+audio.volume = 0.5;
+
+// Autoplay music on user interaction or page load
+function playMusic() {
+	var playPromise = audio.play();
+	if (playPromise !== undefined) {
+		playPromise.catch(function(error) {
+			console.log("Autoplay prevented, waiting for user interaction");
+		});
+	}
+}
+
+// Try to play on page load
+window.addEventListener('load', playMusic);
+
+// Also try to play on first user interaction
+document.addEventListener('click', playMusic, { once: true });
+document.addEventListener('touchstart', playMusic, { once: true });
 </script>
 </body>
 </html>
